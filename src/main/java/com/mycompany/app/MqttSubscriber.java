@@ -69,6 +69,7 @@ public class MqttSubscriber {
         String broker = getEnv("MQTT_BROKER", "tcp://localhost:1883");
         String clientId = getEnv("MQTT_CLIENT_ID", "c-abc");
         String subTopic = getEnv("MQTT_SUB_TOPIC", "+/Lydia/+/State");
+        int pubIdRange = Integer.parseInt(getEnv("PUB_ID_RANGE", "165"));
         //String pubTopic = getEnv("MQTT_PUB_TOPIC", "APP-03624/Lydia/HIK0189/Order");
         String username = getEnv("MQTT_USERNAME", "user");
         String password = getEnv("MQTT_PASSWORD", "parssword");
@@ -105,7 +106,7 @@ public class MqttSubscriber {
                     executorService.submit(() -> {
                         try {
                             Random random = new java.util.Random();
-                            int randomNumber = random.nextInt(165);
+                            int randomNumber = random.nextInt(pubIdRange);
                             String index = UUID.randomUUID().toString().replace("-", "");
                             MDC.put("key", index);
                             String payload = new String(message.getPayload(), "utf-8");
